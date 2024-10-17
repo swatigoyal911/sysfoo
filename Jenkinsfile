@@ -1,22 +1,23 @@
 pipeline {
   agent any
   stages{
-      stage("one"){
+      stage("build"){
           steps{
-              echo 'step 1'
-              sleep 3
+              echo 'Building.....'
+              sh 'mvn compile'
           }
       }
-      stage("two"){
+      stage("test"){
           steps{
-              echo 'step 2'
-              sleep 9
+              echo 'Testing......'
+              sh 'mvn clean install'
           }
       }
-      stage("three"){
+      stage("package"){
           steps{
-              echo 'step 3'
-              sleep 5
+              echo 'Packaging.....'
+              sh 'mvn package'
+              archiveArtifacts artifacts: '**/target/*.jar', followSymlinks: false
           }
       }
   }
